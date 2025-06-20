@@ -1,14 +1,13 @@
-#!/usr/bin/env python3
 import shutil
 import random
 from pathlib import Path
 from sklearn.model_selection import train_test_split
 
-# Configuratie
-SRC_DIR    = Path("data/PlantVillage")  # bron met subfolders per klasse
-TARGET_DIR = Path("data")               # hier worden train/ val/ test/ aangemaakt
+# Configuration
+SRC_DIR    = Path("data/PlantVillage")
+TARGET_DIR = Path("data")
 TRAIN_FRAC = 0.8
-VAL_FRAC   = 0.1  # van de resterende 20% wordt VAL_FRAC gebruikt voor val, de rest is test
+VAL_FRAC   = 0.1
 
 random.seed(42)
 
@@ -17,22 +16,22 @@ def make_splits():
         if not class_dir.is_dir(): 
             continue
         
-        # Maak target subdirs aan
+        # Create target subdirectories
         train_dir = TARGET_DIR / "train" / class_dir.name
         val_dir   = TARGET_DIR / "val"   / class_dir.name
         test_dir  = TARGET_DIR / "test"  / class_dir.name
         for d in (train_dir, val_dir, test_dir):
             d.mkdir(parents=True, exist_ok=True)
 
-        # Alle afbeeldingen in deze klasse
+        # All images in this class
         images = list(class_dir.glob("*.*"))
-        # Eerste split: train vs tmp
+        # First split: train vs temp
         train_imgs, tmp_imgs = train_test_split(images, train_size=TRAIN_FRAC, random_state=42)
-        # Tweede split: val vs test uit de tmp set
+        # Second split: validation vs test from the temp set
         val_size = VAL_FRAC / (1 - TRAIN_FRAC)
         val_imgs, test_imgs = train_test_split(tmp_imgs, train_size=val_size, random_state=42)
 
-        # Kopieer
+        # Copy files
         for img in train_imgs:
             shutil.copy(img, train_dir / img.name)
         for img in val_imgs:
