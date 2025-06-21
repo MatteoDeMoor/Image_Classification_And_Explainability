@@ -47,8 +47,8 @@ If you use this dataset, please cite:
 Create and activate a new venv in your project folder:
 
 ```bash
-python -m venv venv
-.\venv\Scripts\Activate.ps1
+python -m venv venvCLS
+.\venvCLS\Scripts\Activate.ps1
 ```
 
 ---
@@ -72,10 +72,19 @@ python -m venv venv
    ```bash
    pip-sync requirements.txt
    ```
+---
+
+## 5. Prepare the dataset split
+
+Run the dataset splitting script before training to organize your data into train, validation, and test sets:
+
+```bash
+python split_dataset.py
+```
 
 ---
 
-## 5. Run training
+## 6. Run training
 
 Train the CNN and save the best model to `models/best_model.pth`:
 
@@ -85,7 +94,7 @@ python train.py
 
 ---
 
-## 6. Launch the Gradio demo
+## 7. Launch the Gradio demo
 
 Start the Gradio UI to test inference and view Grad-CAM:
 
@@ -99,7 +108,7 @@ Use **Ctrl+C** to stop the service.
 
 ---
 
-## 7. Version control & workflow
+## 8. Version control & workflow
 
 - **Commit & push** your changes:
   ```bash
@@ -107,7 +116,12 @@ Use **Ctrl+C** to stop the service.
   git commit -m "Your message"
   git push
   ```
-- Ensure `data/`, `venv/`, and `models/` are in your `.gitignore`.
+- **.gitignore** should include:
+  ```
+  data/
+  venvCLS/
+  models/
+  ```
 
 ---
 
